@@ -24,7 +24,7 @@ const About = () => {
     {
       name: 'Telegram',
       icon: <FaTelegram />,
-      url: 'https://t.me/herrero3',
+      url: 'https://t.me/herrero4',
       tooltip: 'Chat via Telegram'
     },
     {
