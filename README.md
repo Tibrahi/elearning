@@ -1,4 +1,4 @@
-### Welcome to Code4Impact eLearning Platform**
+### Welcome to Code4Impact eLearning Platform
 
 **Hello and welcome!
 This platform is built with passion by *Tuyizere Ibrahim* to help you learn modern web development technologies through live practice.
