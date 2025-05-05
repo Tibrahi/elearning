@@ -1,7 +1,3 @@
-Certainly! Here's a greeting message and a clear explanation you can display on your homepage or landing page to guide users on how to use your eLearning platform:
-
----
-
 ### Welcome to Code4Impact eLearning Platform**
 
 **Hello and welcome!**
