@@ -40,4 +40,3 @@ This platform is built with passion by *Tuyizere Ibrahim* to help you learn mode
 
 ---
 
-Would you like this to be displayed in a special styled component or modal on your homepage?
