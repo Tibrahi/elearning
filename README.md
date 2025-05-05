@@ -7,7 +7,7 @@ This platform is built with passion by *Tuyizere Ibrahim* to help you learn mode
 
 ### How to Use This App
 
-1. **Explore the Sections:
+1. Explore the Sections:
 
    * **Home:** Overview of what the platform offers.
    * **Courses:** Choose between learning:
