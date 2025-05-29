@@ -20,7 +20,7 @@ const Contact = () => {
         'service_rjuaj1a',
         'template_l4j4r4d',
         form.current,
-        'mqmI8o66J-2GTTnV2'
+        'ZUrx5yuwUN5c538nb'
       );
       
       setStatus('Message sent successfully!');
