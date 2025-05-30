@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaLinkedin, FaGithub, FaDiscord, FaTelegram, FaWhatsapp, FaStackOverflow, FaEnvelope } from 'react-icons/fa';
+import { FaLinkedin, FaGithub, FaDiscord, FaTelegram, FaWhatsapp, FaStackOverflow, FaEnvelope, FaExternalLinkAlt } from 'react-icons/fa';
 import profileImage from '../images/Profile.jpg';
 
 const About = () => {
@@ -75,13 +75,26 @@ const About = () => {
             <h2 className="text-3xl font-bold text-[var(--cyber-white)] mb-4 cyber-glitch">Tuyizere Ibrahim</h2>
             <h3 className="text-xl text-[var(--cyber-green)] mb-6">Founder & Lead Developer at Code4Impact</h3>
             
-            <div className="bio-text max-w-2xl mx-auto">
+            <div className="bio-text max-w-2xl mx-auto mb-8">
               <p className="text-[var(--cyber-white)] text-lg leading-relaxed">
                 Tuyizere Ibrahim is a passionate software developer focused on empowering 
                 communities with digital skills. Through Code4Impact, he aims to simplify 
                 web development learning using real-world tools and live coding environments.
               </p>
             </div>
+
+            {/* Portfolio Link Button */}
+            <a
+              href="https://portfolio-two-omega-75.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-6 py-3 bg-[var(--cyber-green)] text-[var(--cyber-black)] rounded-lg font-medium transition-all duration-300 hover:bg-[var(--cyber-orange)] group"
+              data-aos="fade-up"
+              data-aos-delay="300"
+            >
+              <span className="mr-2">View My Portfolio</span>
+              <FaExternalLinkAlt className="transform group-hover:translate-x-1 transition-transform duration-300" />
+            </a>
           </div>
 
           <div className="social-links grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" data-aos="fade-up" data-aos-delay="400">
