@@ -5,21 +5,30 @@ const Courses = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="cyber-container">
-      <h1 className="cyber-glitch">Available Courses</h1>
-      <div className="courses-grid">
-        <div className="course-card">
-          <h2 className="cyber-glitch">JavaScript Stack</h2>
-          <div className="course-content">
-            <div className="tech-stack">
-              <span className="tech-item">React</span>
-              <span className="tech-item">Node.js</span>
-              <span className="tech-item">MySQL</span>
-              <span className="tech-item">MongoDB</span>
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 className="text-3xl md:text-4xl lg:text-5xl font-tech text-cyber-green text-center mb-8 md:mb-12 cyber-glitch">
+        Available Courses
+      </h1>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="course-card bg-cyber-black/80 p-6 md:p-8 rounded-lg border border-dark-wheat/30 hover:border-cyber-green transition-all duration-300">
+          <h2 className="text-xl md:text-2xl font-tech text-cyber-green mb-4 cyber-glitch">JavaScript Stack</h2>
+          <div className="space-y-4">
+            <div className="flex flex-wrap gap-2 md:gap-3">
+              {['React', 'Node.js', 'MySQL', 'MongoDB'].map((tech, index) => (
+                <span 
+                  key={index}
+                  className="bg-cyber-black text-cyber-orange px-3 py-1 md:px-4 md:py-2 text-sm md:text-base border border-cyber-orange rounded"
+                >
+                  {tech}
+                </span>
+              ))}
             </div>
-            <p>Master modern JavaScript ecosystem and full-stack development</p>
+            <p className="text-cyber-white text-base md:text-lg leading-relaxed">
+              Master modern JavaScript ecosystem and full-stack development
+            </p>
             <button 
-              className="cyber-button"
+              className="w-full md:w-auto bg-transparent text-cyber-green border border-cyber-green px-6 py-2 md:py-3 text-sm md:text-base font-tech hover:bg-cyber-green hover:text-cyber-black transition-all duration-300"
               onClick={() => navigate('/playground/js')}
             >
               Learn JavaScript
@@ -27,16 +36,24 @@ const Courses = () => {
           </div>
         </div>
 
-        <div className="course-card">
-          <h2 className="cyber-glitch">PHP Stack</h2>
-          <div className="course-content">
-            <div className="tech-stack">
-              <span className="tech-item">Laravel</span>
-              <span className="tech-item">MySQL</span>
+        <div className="course-card bg-cyber-black/80 p-6 md:p-8 rounded-lg border border-dark-wheat/30 hover:border-cyber-green transition-all duration-300">
+          <h2 className="text-xl md:text-2xl font-tech text-cyber-green mb-4 cyber-glitch">PHP Stack</h2>
+          <div className="space-y-4">
+            <div className="flex flex-wrap gap-2 md:gap-3">
+              {['Laravel', 'MySQL'].map((tech, index) => (
+                <span 
+                  key={index}
+                  className="bg-cyber-black text-cyber-orange px-3 py-1 md:px-4 md:py-2 text-sm md:text-base border border-cyber-orange rounded"
+                >
+                  {tech}
+                </span>
+              ))}
             </div>
-            <p>Build powerful web applications with PHP and Laravel</p>
+            <p className="text-cyber-white text-base md:text-lg leading-relaxed">
+              Build powerful web applications with PHP and Laravel
+            </p>
             <button 
-              className="cyber-button"
+              className="w-full md:w-auto bg-transparent text-cyber-green border border-cyber-green px-6 py-2 md:py-3 text-sm md:text-base font-tech hover:bg-cyber-green hover:text-cyber-black transition-all duration-300"
               onClick={() => navigate('/playground/php')}
             >
               Learn PHP
@@ -44,19 +61,24 @@ const Courses = () => {
           </div>
         </div>
 
-        <div className="course-card">
-          <h2 className="cyber-glitch">Python & MachineLearning Stack</h2>
-          <div className="course-content">
-            <div className="tech-stack">
-              <span className="tech-item">Pandas</span>
-              <span className="tech-item">Numpy</span>
-              <span className="tech-item">Scikit-learn</span>  
-              <span className="tech-item">Visualization</span>
-              <span className="tech-item">Mysql</span>
+        <div className="course-card bg-cyber-black/80 p-6 md:p-8 rounded-lg border border-dark-wheat/30 hover:border-cyber-green transition-all duration-300">
+          <h2 className="text-xl md:text-2xl font-tech text-cyber-green mb-4 cyber-glitch">Python & MachineLearning Stack</h2>
+          <div className="space-y-4">
+            <div className="flex flex-wrap gap-2 md:gap-3">
+              {['Pandas', 'Numpy', 'Scikit-learn', 'Visualization', 'Mysql'].map((tech, index) => (
+                <span 
+                  key={index}
+                  className="bg-cyber-black text-cyber-orange px-3 py-1 md:px-4 md:py-2 text-sm md:text-base border border-cyber-orange rounded"
+                >
+                  {tech}
+                </span>
+              ))}
             </div>
-            <p>Build powerful web applications and Models with Python and MachineLearning Tools</p>
+            <p className="text-cyber-white text-base md:text-lg leading-relaxed">
+              Build powerful web applications and Models with Python and MachineLearning Tools
+            </p>
             <button 
-              className="cyber-button"
+              className="w-full md:w-auto bg-transparent text-cyber-green border border-cyber-green px-6 py-2 md:py-3 text-sm md:text-base font-tech hover:bg-cyber-green hover:text-cyber-black transition-all duration-300"
               onClick={() => navigate('/playground/python')}
             >
               Learn Python

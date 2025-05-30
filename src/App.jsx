@@ -53,18 +53,20 @@ function App() {
   }, []);
 
   return (
-    <div className="app-container">
-      <nav className="cyber-nav">
-        <div className="nav-brand cyber-glitch">Code4Impact eLearning</div>
-        <div className="nav-links">
-          <Link to="/" className="cyber-link">Home</Link>
-          <Link to="/about" className="cyber-link">About</Link>
-          <Link to="/courses" className="cyber-link">Courses</Link>
-          <Link to="/contact" className="cyber-link">Contact</Link>
+    <div className="app-container min-h-screen flex flex-col bg-gradient-to-b from-dark-wheat/5 via-cyber-black/90 to-dark-wheat/5">
+      <nav className="cyber-nav bg-cyber-black/90 px-4 py-3 md:px-6 md:py-4 sticky top-0 z-50 border-b border-dark-wheat/30">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="nav-brand text-2xl md:text-3xl font-tech text-cyber-green cyber-glitch">Code4Impact eLearning</div>
+          <div className="nav-links flex flex-wrap justify-center gap-4 md:gap-8">
+            <Link to="/" className="cyber-link text-cyber-white hover:text-cyber-orange transition-all duration-300 text-sm md:text-base">Home</Link>
+            <Link to="/about" className="cyber-link text-cyber-white hover:text-cyber-orange transition-all duration-300 text-sm md:text-base">About</Link>
+            <Link to="/courses" className="cyber-link text-cyber-white hover:text-cyber-orange transition-all duration-300 text-sm md:text-base">Courses</Link>
+            <Link to="/contact" className="cyber-link text-cyber-white hover:text-cyber-orange transition-all duration-300 text-sm md:text-base">Contact</Link>
+          </div>
         </div>
       </nav>
 
-      <main className="main-content">
+      <main className="main-content flex-1 px-4 py-6 md:px-6 md:py-8 max-w-7xl mx-auto w-full">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -74,9 +76,11 @@ function App() {
         </Routes>
       </main>
 
-      <footer className="cyber-footer">
-        <p>© 2025 Code4Impact. All rights reserved.</p>
-        <p>Rwanda Kigali Kicukiro Gatenga Kk595st</p>
+      <footer className="cyber-footer bg-cyber-black py-4 px-4 md:px-6 text-center text-cyber-white text-sm md:text-base">
+        <div className="max-w-7xl mx-auto">
+          <p className="mb-2">© 2025 Code4Impact. All rights reserved.</p>
+          <p>Rwanda Kigali Kicukiro Gatenga Kk595st</p>
+        </div>
       </footer>
     </div>
   );

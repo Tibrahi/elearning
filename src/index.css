@@ -2,11 +2,13 @@
   --cyber-green: #00ff00;
   --cyber-orange: #ff6b00;
   --cyber-black: #0a0a0a;
-  --cyber-white: #ffffff;
+  --cyber-dark: #1a1a1a;
+  --cyber-gray: #2a2a2a;
+  --cyber-white: #e0e0e0;
   font-family: 'Share Tech Mono', monospace;
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: light dark;
+  color-scheme: dark;
   background-color: var(--cyber-black);
   color: var(--cyber-white);
 }
@@ -24,11 +26,12 @@ body {
 
 .cyber-container {
   border: 2px solid var(--cyber-green);
-  background: rgba(0, 255, 0, 0.05);
+  background: rgba(0, 255, 0, 0.03);
   padding: 20px;
   margin: 10px;
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(5px);
 }
 
 .cyber-button {
@@ -61,32 +64,39 @@ h1 {
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1px solid var(--cyber-green);
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--cyber-dark);
+  color: var(--cyber-green);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: all 0.3s ease;
 }
+
 button:hover {
-  border-color: #646cff;
+  background-color: var(--cyber-green);
+  color: var(--cyber-black);
+  box-shadow: 0 0 15px var(--cyber-green);
 }
+
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 2px solid var(--cyber-green);
+  box-shadow: 0 0 10px var(--cyber-green);
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: var(--cyber-white);
+    background-color: var(--cyber-black);
   }
   a:hover {
-    color: #747bff;
+    color: var(--cyber-green);
   }
   button {
-    background-color: #f9f9f9;
+    background-color: var(--cyber-dark);
+    color: var(--cyber-green);
   }
 }
