@@ -107,9 +107,72 @@ const Playground = () => {
     // Add any additional customizations or event listeners here
   };
 
-  const getErrorHint = (error) => {
+  const getErrorHint = (error, code, language) => {
     const errorMessage = error.message.toLowerCase();
+    const codeLines = code.split('\n');
     
+    // PHP specific error detection
+    if (language.toLowerCase() === 'php') {
+      // Check for missing semicolon
+      const missingSemicolon = codeLines.some(line => 
+        line.trim().endsWith('"') || 
+        line.trim().endsWith("'") || 
+        line.trim().endsWith(')') || 
+        line.trim().endsWith(']')
+      );
+      if (missingSemicolon) {
+        return {
+          hint: 'PHP Syntax Error: Missing semicolon at the end of statement',
+          suggestions: [
+            'Add a semicolon (;) at the end of each statement',
+            'Check all echo, print, and variable assignment statements',
+            'Make sure each line ends with a semicolon unless it\'s a control structure'
+          ]
+        };
+      }
+
+      // Check for missing quotes
+      const quoteMismatch = codeLines.some(line => {
+        const singleQuotes = (line.match(/'/g) || []).length;
+        const doubleQuotes = (line.match(/"/g) || []).length;
+        return (singleQuotes % 2 !== 0) || (doubleQuotes % 2 !== 0);
+      });
+      if (quoteMismatch) {
+        return {
+          hint: 'PHP Syntax Error: Mismatched quotes',
+          suggestions: [
+            'Check that all string quotes are properly closed',
+            'Make sure you\'re using matching quote types (single or double)',
+            'Verify that quotes within strings are properly escaped'
+          ]
+        };
+      }
+
+      // Check for missing PHP tags
+      if (!code.includes('<?php') || !code.includes('?>')) {
+        return {
+          hint: 'PHP Syntax Error: Missing PHP tags',
+          suggestions: [
+            'Start your PHP code with <?php',
+            'End your PHP code with ?>',
+            'Make sure PHP tags are properly placed'
+          ]
+        };
+      }
+
+      // Check for common PHP function errors
+      if (errorMessage.includes('undefined function')) {
+        return {
+          hint: 'PHP Error: Undefined function',
+          suggestions: [
+            'Check if the function name is spelled correctly',
+            'Verify that the function exists in PHP',
+            'Make sure you\'re using the correct PHP version for the function'
+          ]
+        };
+      }
+    }
+
     // Common JavaScript errors
     if (errorMessage.includes('unexpected token')) {
       return {
@@ -140,18 +203,6 @@ const Playground = () => {
           'Check if the object exists before accessing its properties',
           'Add a null check before accessing the property',
           'Make sure the object is properly initialized'
-        ]
-      };
-    }
-
-    // Common PHP errors
-    if (errorMessage.includes('unexpected $end')) {
-      return {
-        hint: 'PHP Syntax Error: Missing closing tag or bracket',
-        suggestions: [
-          'Check if all PHP tags are properly closed (<?php ... ?>)',
-          'Verify that all brackets and parentheses are properly closed',
-          'Make sure all code blocks are properly terminated'
         ]
       };
     }
@@ -225,7 +276,7 @@ const Playground = () => {
       // Display the output
       setOutput(logs.join('\n') || 'No output');
     } catch (error) {
-      const errorHint = getErrorHint(error);
+      const errorHint = getErrorHint(error, code, language);
       setOutput(
         `Error: ${error.message}\n\n` +
         `💡 Hint: ${errorHint.hint}\n\n` +
