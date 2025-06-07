@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Editor from '@monaco-editor/react';
 // import './Playground.css';
 
 const Playground = () => {
@@ -8,6 +9,39 @@ const Playground = () => {
   const [currentNote, setCurrentNote] = useState('');
   const [editIndex, setEditIndex] = useState(null);
   const [noteName, setNoteName] = useState('');
+  const [fileExtension, setFileExtension] = useState('');
+  const [validationMessage, setValidationMessage] = useState('');
+  const [validationType, setValidationType] = useState('');
+  const [output, setOutput] = useState('');
+  const [isRunning, setIsRunning] = useState(false);
+
+  // Set default file extension based on language
+  useEffect(() => {
+    switch (language.toLowerCase()) {
+      case 'js':
+        setFileExtension('.js');
+        break;
+      case 'php':
+        setFileExtension('.php');
+        break;
+      case 'python':
+        setFileExtension('.py');
+        break;
+      default:
+        setFileExtension('');
+    }
+  }, [language]);
+
+  // Validate note name on change
+  useEffect(() => {
+    if (noteName && !noteName.endsWith(fileExtension)) {
+      setValidationMessage(`File name must end with ${fileExtension}`);
+      setValidationType('error');
+    } else {
+      setValidationMessage('');
+      setValidationType('');
+    }
+  }, [noteName, fileExtension]);
 
   const handleSubmit = () => {
     if (currentNote.trim()) {
@@ -16,9 +50,16 @@ const Playground = () => {
         return;
       }
 
+      // Validate file extension
+      if (!noteName.endsWith(fileExtension)) {
+        showNotification(`Note name must end with ${fileExtension}`, 'error');
+        return;
+      }
+
       const noteObject = {
         name: noteName,
-        content: currentNote
+        content: currentNote,
+        language: language.toLowerCase()
       };
 
       if (editIndex !== null) {
@@ -58,6 +99,143 @@ const Playground = () => {
     showNotification('Note removed!');
   };
 
+  const handleEditorChange = (value) => {
+    setCurrentNote(value);
+  };
+
+  const handleEditorDidMount = (editor, monaco) => {
+    // Add any additional customizations or event listeners here
+  };
+
+  const getErrorHint = (error) => {
+    const errorMessage = error.message.toLowerCase();
+    
+    // Common JavaScript errors
+    if (errorMessage.includes('unexpected token')) {
+      return {
+        hint: 'Syntax Error: Check for missing brackets, parentheses, or semicolons',
+        suggestions: [
+          'Make sure all opening brackets/parentheses have matching closing ones',
+          'Check for missing semicolons at the end of statements',
+          'Verify that all strings are properly quoted'
+        ]
+      };
+    }
+    
+    if (errorMessage.includes('is not defined')) {
+      return {
+        hint: 'Reference Error: Variable or function is not defined',
+        suggestions: [
+          'Check if the variable/function name is spelled correctly',
+          'Make sure the variable/function is declared before using it',
+          'Verify that the variable/function is in the correct scope'
+        ]
+      };
+    }
+    
+    if (errorMessage.includes('cannot read property')) {
+      return {
+        hint: 'Type Error: Trying to access a property of undefined or null',
+        suggestions: [
+          'Check if the object exists before accessing its properties',
+          'Add a null check before accessing the property',
+          'Make sure the object is properly initialized'
+        ]
+      };
+    }
+
+    // Common PHP errors
+    if (errorMessage.includes('unexpected $end')) {
+      return {
+        hint: 'PHP Syntax Error: Missing closing tag or bracket',
+        suggestions: [
+          'Check if all PHP tags are properly closed (<?php ... ?>)',
+          'Verify that all brackets and parentheses are properly closed',
+          'Make sure all code blocks are properly terminated'
+        ]
+      };
+    }
+
+    // Common Python errors
+    if (errorMessage.includes('indentationerror')) {
+      return {
+        hint: 'Indentation Error: Incorrect indentation in Python code',
+        suggestions: [
+          'Make sure all indentation is consistent (use spaces or tabs, not both)',
+          'Check that code blocks are properly indented',
+          'Verify that all code after a colon (:) is indented'
+        ]
+      };
+    }
+
+    if (errorMessage.includes('nameerror')) {
+      return {
+        hint: 'Name Error: Variable or function is not defined',
+        suggestions: [
+          'Check if the variable/function name is spelled correctly',
+          'Make sure the variable/function is defined before using it',
+          'Verify that you have imported any required modules'
+        ]
+      };
+    }
+
+    // Default error hint
+    return {
+      hint: 'Error occurred while running the code',
+      suggestions: [
+        'Check the error message for specific details',
+        'Verify that all syntax is correct',
+        'Make sure all required variables and functions are defined'
+      ]
+    };
+  };
+
+  const runCode = async (code) => {
+    setIsRunning(true);
+    setOutput('Running code...\n');
+
+    try {
+      // Create a safe execution environment
+      const safeCode = `
+        try {
+          ${code}
+        } catch (error) {
+          console.error(error);
+        }
+      `;
+
+      // Create a new Function to execute the code
+      const executeCode = new Function(safeCode);
+      
+      // Capture console.log output
+      const originalConsoleLog = console.log;
+      const logs = [];
+      console.log = (...args) => {
+        logs.push(args.map(arg => 
+          typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+        ).join(' '));
+      };
+
+      // Execute the code
+      executeCode();
+
+      // Restore console.log
+      console.log = originalConsoleLog;
+
+      // Display the output
+      setOutput(logs.join('\n') || 'No output');
+    } catch (error) {
+      const errorHint = getErrorHint(error);
+      setOutput(
+        `Error: ${error.message}\n\n` +
+        `💡 Hint: ${errorHint.hint}\n\n` +
+        `Suggestions:\n${errorHint.suggestions.map(s => `• ${s}`).join('\n')}`
+      );
+    } finally {
+      setIsRunning(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-8">
       <div className="max-w-7xl mx-auto">
@@ -78,36 +256,123 @@ const Playground = () => {
               type="text"
               value={noteName}
               onChange={(e) => setNoteName(e.target.value)}
-              placeholder="Enter an epic note name..."
-              className="w-full px-4 py-3 bg-gray-900/50 border border-cyan-500/30 rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent transition-all"
+              placeholder={`Enter an epic note name (must end with ${fileExtension})...`}
+              className={`w-full px-4 py-3 bg-gray-900/50 border ${
+                validationType === 'error' ? 'border-red-500' : 'border-cyan-500/30'
+              } rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent transition-all`}
             />
+            {validationMessage && (
+              <p className={`mt-2 text-sm ${validationType === 'error' ? 'text-red-500' : 'text-cyan-500'}`}>
+                {validationMessage}
+              </p>
+            )}
           </div>
 
-          <div className="flex mb-6">
-            <div className="bg-gray-900/50 p-3 border-r border-cyan-500/30 text-gray-500 font-mono text-sm">
-              {currentNote.split('\n').map((_, i) => (
-                <div key={i} className="select-none">{i + 1}</div>
-              ))}
-            </div>
-            <textarea
+          <div className="h-[400px] mb-6">
+            <Editor
+              height="100%"
+              defaultLanguage={language.toLowerCase()}
+              language={language.toLowerCase()}
               value={currentNote}
-              onChange={(e) => setCurrentNote(e.target.value)}
-              placeholder={`Start typing your ${language.toUpperCase()} notes here...`}
-              className="flex-1 min-h-[200px] p-3 bg-gray-900/50 border border-cyan-500/30 rounded-r-lg text-gray-100 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent resize-y"
-              spellCheck="false"
+              onChange={handleEditorChange}
+              onMount={handleEditorDidMount}
+              theme="vs-dark"
+              options={{
+                minimap: { enabled: false },
+                fontSize: 14,
+                wordWrap: 'on',
+                automaticLayout: true,
+                suggestOnTriggerCharacters: true,
+                quickSuggestions: true,
+                parameterHints: { enabled: true },
+                formatOnPaste: true,
+                formatOnType: true,
+                tabSize: 2,
+                scrollBeyondLastLine: false,
+                lineNumbers: 'on',
+                renderLineHighlight: 'all',
+                matchBrackets: 'always',
+                autoClosingBrackets: 'always',
+                autoClosingQuotes: 'always',
+                autoIndent: 'full',
+                folding: true,
+                foldingStrategy: 'indentation',
+                showFoldingControls: 'always',
+                suggest: {
+                  preview: true,
+                  showMethods: true,
+                  showFunctions: true,
+                  showConstructors: true,
+                  showFields: true,
+                  showVariables: true,
+                  showClasses: true,
+                  showStructs: true,
+                  showInterfaces: true,
+                  showModules: true,
+                  showProperties: true,
+                  showEvents: true,
+                  showOperators: true,
+                  showUnits: true,
+                  showValues: true,
+                  showConstants: true,
+                  showEnums: true,
+                  showEnumMembers: true,
+                  showKeywords: true,
+                  showWords: true,
+                  showColors: true,
+                  showFiles: true,
+                  showReferences: true,
+                  showFolders: true,
+                  showTypeParameters: true,
+                  showSnippets: true
+                }
+              }}
             />
           </div>
 
-          <button
-            onClick={handleSubmit}
-            className={`px-6 py-3 rounded-lg font-semibold text-white transition-all transform hover:scale-105 hover:shadow-lg ${
-              editIndex !== null
-                ? 'bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400'
-                : 'bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400'
-            }`}
-          >
-            {editIndex !== null ? 'Update Note' : 'Save Note'}
-          </button>
+          <div className="flex gap-4">
+            <button
+              onClick={handleSubmit}
+              className={`px-6 py-3 rounded-lg font-semibold text-white transition-all transform hover:scale-105 hover:shadow-lg ${
+                editIndex !== null
+                  ? 'bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400'
+                  : 'bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400'
+              }`}
+            >
+              {editIndex !== null ? 'Update Note' : 'Save Note'}
+            </button>
+            <button
+              onClick={() => runCode(currentNote)}
+              disabled={isRunning}
+              className={`px-6 py-3 rounded-lg font-semibold text-white transition-all transform hover:scale-105 hover:shadow-lg ${
+                isRunning
+                  ? 'bg-gray-500 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400'
+              }`}
+            >
+              {isRunning ? 'Running...' : 'Run Code'}
+            </button>
+          </div>
+
+          {/* Output Section */}
+          {output && (
+            <div className="mt-6">
+              <h3 className="text-xl font-semibold text-cyan-400 mb-2">Output:</h3>
+              <div className={`bg-gray-900/50 border rounded-lg p-4 ${
+                output.startsWith('Error:') 
+                  ? 'border-red-500/50' 
+                  : 'border-cyan-500/30'
+              }`}>
+                <pre className={`font-mono text-sm whitespace-pre-wrap ${
+                  output.startsWith('Error:') 
+                    ? 'text-red-400' 
+                    : 'text-gray-100'
+                }`}>
+                  {output}
+                </pre>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Notes Collection Section */}
@@ -137,6 +402,13 @@ const Playground = () => {
                       📋
                     </button>
                     <button
+                      onClick={() => runCode(note.content)}
+                      className="p-2 text-green-400 hover:text-green-300 transition-colors"
+                      title="Run"
+                    >
+                      ▶️
+                    </button>
+                    <button
                       onClick={() => handleEdit(index)}
                       className="p-2 text-yellow-400 hover:text-yellow-300 transition-colors"
                       title="Edit"
@@ -152,9 +424,28 @@ const Playground = () => {
                     </button>
                   </div>
                 </div>
-                <pre className="p-4 text-gray-100 font-mono text-sm overflow-x-auto max-h-[300px]">
-                  {note.content}
-                </pre>
+                <div className="h-[200px]">
+                  <Editor
+                    height="100%"
+                    language={note.language}
+                    value={note.content}
+                    theme="vs-dark"
+                    options={{
+                      readOnly: true,
+                      minimap: { enabled: false },
+                      fontSize: 12,
+                      wordWrap: 'on',
+                      automaticLayout: true,
+                      scrollBeyondLastLine: false,
+                      lineNumbers: 'on',
+                      renderLineHighlight: 'all',
+                      matchBrackets: 'always',
+                      folding: true,
+                      foldingStrategy: 'indentation',
+                      showFoldingControls: 'always'
+                    }}
+                  />
+                </div>
               </div>
             ))}
           </div>
