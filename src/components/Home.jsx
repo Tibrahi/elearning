@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loading from './Loading';
+// import '../animate.css';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -19,9 +20,9 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--cyber-black)]">
+    <div className="min-h-screen flex flex-col animate-fadeIn">
       {/* Hero Section - Full Screen */}
-      <section className="min-h-screen flex items-center justify-center bg-[var(--cyber-black)]">
+      <section className="min-h-screen flex items-center justify-center bg-[var(--cyber-black)] m-0 p-0 py-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[var(--cyber-white)] mb-8 cyber-glitch">
             Welcome to Code4Impact
@@ -47,9 +48,9 @@ const Home = () => {
       </section>
 
       {/* Mission Section - Full Screen */}
-      <section className="min-h-screen flex items-center justify-center relative bg-[var(--cyber-dark)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center mb-16">
+      <section className="min-h-screen flex items-center justify-center relative m-0 p-0 py-0">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-0">
+          <div className="text-center mb-0">
             <h2 className="text-3xl md:text-4xl font-bold text-[var(--cyber-white)] mb-6 cyber-glitch">
               Our Mission
             </h2>
@@ -94,9 +95,9 @@ const Home = () => {
       </section>
 
       {/* Technologies Section - Full Screen */}
-      <section className="min-h-screen flex items-center justify-center relative bg-[var(--cyber-black)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center mb-16">
+      <section className="min-h-screen flex items-center justify-center relative m-0 p-0 py-0">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-0">
+          <div className="text-center mb-0">
             <h2 className="text-3xl md:text-4xl font-bold text-[var(--cyber-white)] mb-6 cyber-glitch">
               Technologies You'll Master
             </h2>
@@ -124,9 +125,9 @@ const Home = () => {
       </section>
 
       {/* Call to Action Section - Full Screen */}
-      <section className="min-h-screen flex items-center justify-center relative bg-[var(--cyber-dark)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="cyber-container">
+      <section className="min-h-screen flex items-center justify-center relative m-0 p-0 py-0">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-0">
+          <div>
             <div className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-[var(--cyber-white)] mb-6 cyber-glitch">
                 Ready to Start Your Journey?

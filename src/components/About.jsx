@@ -49,55 +49,35 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[var(--cyber-black)] py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="cyber-container animate__animated animate__fadeIn">
-          <h1 className="cyber-glitch text-4xl md:text-5xl text-center mb-12" data-aos="fade-up">About Me</h1>
-          
-          {/* Profile Image Section */}
-          <div className="profile-image-section relative mb-12" data-aos="zoom-in">
-            <div className="absolute inset-0 bg-gradient-to-br from-[var(--cyber-green)]/20 to-[var(--cyber-orange)]/20 rounded-full blur-xl animate-pulse"></div>
-            
-            <div className="relative w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-[var(--cyber-green)]/50 shadow-lg shadow-[var(--cyber-green)]/20 animate-float">
-              <div className="absolute inset-0 bg-gradient-to-br from-[var(--cyber-green)]/20 to-[var(--cyber-orange)]/20 animate-pulse"></div>
-              <img 
-                src={profileImage}
-                alt="Tuyizere Ibrahim"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-12 bg-gradient-to-b from-[var(--cyber-green)] to-transparent"></div>
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-12 bg-gradient-to-t from-[var(--cyber-orange)] to-transparent"></div>
-          </div>
-          
-          <div className="profile-section text-center mb-12" data-aos="fade-up" data-aos-delay="200">
-            <h2 className="text-3xl font-bold text-[var(--cyber-white)] mb-4 cyber-glitch">Tuyizere Ibrahim</h2>
-            <h3 className="text-xl text-[var(--cyber-green)] mb-6">Founder & Lead Developer at Code4Impact</h3>
-            
-            <div className="bio-text max-w-2xl mx-auto mb-8">
-              <p className="text-[var(--cyber-white)] text-lg leading-relaxed">
-                Tuyizere Ibrahim is a passionate software developer focused on empowering 
-                communities with digital skills. Through Code4Impact, he aims to simplify 
-                web development learning using real-world tools and live coding environments.
-              </p>
-            </div>
-
-            {/* Portfolio Link Button */}
-            <a
-              href="https://portfolio-two-omega-75.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3 bg-[var(--cyber-green)] text-[var(--cyber-black)] rounded-lg font-medium transition-all duration-300 hover:bg-[var(--cyber-orange)] group"
-              data-aos="fade-up"
-              data-aos-delay="300"
-            >
-              <span className="mr-2">View My Portfolio</span>
-              <FaExternalLinkAlt className="transform group-hover:translate-x-1 transition-transform duration-300" />
-            </a>
-          </div>
-
-          <div className="social-links grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" data-aos="fade-up" data-aos-delay="400">
+    <div className="min-h-screen bg-[var(--cyber-black)] flex">
+      {/* Sidebar */}
+      <aside className="w-64 bg-[var(--cyber-dark)] p-8 flex flex-col items-center border-r-2 border-[var(--cyber-green)]">
+        <img src={profileImage} alt="Tuyizere Ibrahim" className="w-24 h-24 rounded-full mb-4 border-2 border-[var(--cyber-green)]" />
+        <h2 className="text-xl font-bold text-[var(--cyber-white)] mb-2">Tuyizere Ibrahim</h2>
+        <h3 className="text-base text-[var(--cyber-green)] mb-4">Founder & Lead Developer</h3>
+        <a
+          href="https://portfolio-two-omega-75.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-4 py-2 bg-[var(--cyber-green)] text-[var(--cyber-black)] rounded-lg font-medium transition-all duration-300 hover:bg-[var(--cyber-orange)] flex items-center gap-2"
+        >
+          Portfolio <FaExternalLinkAlt />
+        </a>
+      </aside>
+      {/* Main Dashboard Content */}
+      <main className="flex-1 p-8 flex flex-col gap-8">
+        <section className="mb-0">
+          <h1 className="text-3xl font-bold text-[var(--cyber-white)] mb-4">About Code4Impact</h1>
+          <p className="text-[var(--cyber-white)] text-lg mb-2">
+            Code4Impact is a platform dedicated to empowering African developers with modern tech skills and real-world coding experience.
+          </p>
+          <p className="text-[var(--cyber-white)] text-base">
+            Our mission is to simplify web development learning and foster innovation through hands-on projects and community support.
+          </p>
+        </section>
+        <section>
+          <h2 className="text-2xl font-bold text-[var(--cyber-green)] mb-4">Connect & Collaborate</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {socialLinks.map((link, index) => (
               <a
                 key={index}
@@ -119,8 +99,8 @@ const About = () => {
               </a>
             ))}
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
     </div>
   );
 };
