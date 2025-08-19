@@ -5,6 +5,8 @@ import About from './components/About'
 import Courses from './components/Courses'
 import Contact from './components/Contact'
 import Playground from './components/Playground'
+import Pricing from './components/Pricing'
+import Transform from './components/Transform'
 import React, { useEffect } from 'react'
 
 function App() {
@@ -53,7 +55,7 @@ function App() {
   }, []);
 
   return (
-    <div className="app-container min-h-screen flex flex-col bg-gradient-to-b from-dark-wheat/5 via-cyber-black/90 to-dark-wheat/5">
+    <div className="app-container min-h-screen flex flex-col bg-gradient-to-b from-dark-wheat/5 via-cyber-black/90 to-dark-wheat/5"> 
       <nav className="cyber-nav bg-cyber-black/90 px-4 py-3 md:px-6 md:py-4 sticky top-0 z-50 border-b border-dark-wheat/30">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="nav-brand text-2xl md:text-3xl font-tech text-cyber-green cyber-glitch">Code4Impact eLearning</div>
@@ -62,6 +64,8 @@ function App() {
             <Link to="/about" className="cyber-link text-cyber-white hover:text-cyber-orange transition-all duration-300 text-sm md:text-base">About</Link>
             <Link to="/courses" className="cyber-link text-cyber-white hover:text-cyber-orange transition-all duration-300 text-sm md:text-base">Courses</Link>
             <Link to="/contact" className="cyber-link text-cyber-white hover:text-cyber-orange transition-all duration-300 text-sm md:text-base">Contact</Link>
+            <Link to="/transform" className="cyber-link text-cyber-white hover:text-cyber-orange transition-all duration-300 text-sm md:text-base">Transform</Link>
+            <Link to="/pricing" className="cyber-link text-cyber-white hover:text-cyber-orange transition-all duration-300 text-sm md:text-base">Pricing</Link>
           </div>
         </div>
       </nav>
@@ -73,10 +77,12 @@ function App() {
           <Route path="/courses" element={<Courses />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/playground/:language" element={<Playground />} />
+          <Route path="/transform" element={<Transform />} />
+          <Route path="/pricing" element={<Pricing />} />
         </Routes>
       </main>
 
-      <footer className="cyber-footer bg-cyber-black py-4 px-4 md:px-6 text-center text-cyber-white text-sm md:text-base">
+      <footer className="cyber-footer bg-cyber-black py-4 px-4 md:px-6 text-center text-cyber-white text-sm md:text-base"> 
         <div className="max-w-7xl mx-auto">
           <p className="mb-2">© 2025 Code4Impact. All rights reserved.</p>
           <p>Rwanda Kigali Kicukiro Gatenga Kk595st</p>
